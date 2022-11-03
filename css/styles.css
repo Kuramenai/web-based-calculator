@@ -1,0 +1,81 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,500;0,700;0,900;1,300&display=swap');
+
+body{
+    margin: 0;
+    padding: 0;
+
+    height: 100vh;
+
+    display: flex;
+    flex-direction: column;
+
+}
+
+.calculator-container{
+    flex:1;
+
+    display: flex;
+    
+    justify-content: center;
+    align-items: center;
+
+    background-color: whitesmoke;
+
+    
+}
+
+.calculator{
+    display: flex;
+    flex-direction: column;
+    row-gap: 10px;
+    
+    width: 450px;
+    padding: 15px;
+
+    border: 2px solid gray;
+    border-radius: 15px;
+
+    box-sizing: border-box;
+}
+
+.calculator-screen{
+    
+    flex-basis: 100px;
+
+    border: 2px solid black;
+    border-radius: 10px;
+}
+
+.calculator-buttons{
+    
+    flex-basis: 300px;
+
+    display: grid;
+   
+    grid-template-areas: 
+    "seven eight nine del ac"
+    "four five six multi divide"
+    "one two three  add subtract"
+    "zero point empty equal equal"
+    ;
+    grid-template-columns: repeat(5,75px);
+    gap: 10px;
+
+}
+
+.calculator-buttons div{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+    border: 2px solid gray;
+    border-radius: 5px;
+}
+
+footer{
+    flex-basis: 40px;
+    background-color: rgb(20, 167, 167);
+}
+
+
+
