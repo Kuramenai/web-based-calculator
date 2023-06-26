@@ -16,28 +16,46 @@ function divide(number1, number2){
     return number1 / number2;
 }
 
+function isValidNumber(number){
+    if( Number.isFinite(number)){
+        return true;
+    }
+    else{
+        return false;
+    }
+}
+
 function operate(number1, number2, operator){
     switch(operator){
     case 'add':
-        return add(parseInt(number1), parseInt(number2));
+        return add(number1, number2);
     case 'subtract':
-        return subtract(parseInt(number1), parseInt(number2));
+        return subtract(number1, number2);
     case 'multiply':
-        return multiply(parseInt(number1), parseInt(number2));
+        return multiply(number1, number2);
     case 'divide':
-        return divide(parseInt(number1), parseInt(number2))
+        return divide(number1, number2);
     }
 }
+
 function getOperationResult(){
 
-    operator = operatorsStack.shift();
+    operator = operatorsStack[0];
     operatorName = operator.id;
     operands = upperScreen.textContent.split(`${operator.textContent}`);
-    number1 = operands.shift();
-    number2 = operands.shift();
-    result = operate(number1, number2, operatorName);
-    return result;
+    firstOperand = parseFloat(operands[0]);
+    secondOperand = parseFloat(operands[1]);
 
+    if (isValidNumber(firstOperand) && isValidNumber(secondOperand)){
+        result = operate(firstOperand, secondOperand, operatorName);
+        operatorsStack.shift();
+        operands.shift();
+        operands.shift();
+        return result;
+    }
+    else{
+        return NaN;
+    }
 }
 
 function resetOperators(){
@@ -59,9 +77,19 @@ function main(e){
     let button = e.target;
 
     if(button.id === 'multiply' || button.id === 'divide' || button.id === 'add' || button.id === 'subtract'){
-
-        operatorsStack.push(button);
-        upperScreen.textContent += ` ${button.textContent} `;
+        
+        if(operatorsStack.length === 1){
+            operationResult = getOperationResult()
+            if(operationResult){
+                upperScreen.textContent = `${operationResult} ${button.textContent} `
+                operatorsStack.push(button)
+            }
+            
+        }
+        else if(operatorsStack.length === 0){
+            operatorsStack.push(button);
+            upperScreen.textContent += ` ${button.textContent} `;
+        }
 
     }
     else if(button.id === '=' && operatorsStack){
@@ -73,11 +101,11 @@ function main(e){
             displayingPastResult = true;
             resetOperators();
         }
-        else{
-        
-            lowerScreen.textContent = 'SYNTAX ERROR';   
-        }
 
+    }
+    else if(button.id === 'ac'){
+        clearScreen()
+        resetOperators()
     }
     else if(!button.id){
         if(displayingPastResult){

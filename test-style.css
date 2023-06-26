@@ -1,0 +1,155 @@
+body{
+    margin: 0;
+    padding: 0;
+
+    height: 100vh;
+    width: 100vw;
+
+    display: flex;
+    flex-direction: column;
+
+    justify-content: center;
+  
+    background-color: whitesmoke;
+
+    /* user-select: none; */
+}
+
+/* Calculator */
+
+.calculator-container{
+    display: flex;
+    flex-grow: 1;
+
+    justify-content: center;
+    align-items: center;
+}
+
+.calculator{
+    display: flex;
+    flex-direction: column;
+
+    width: 420px;
+    
+    border: 2px solid black;
+    border-radius: 5px;
+
+    box-sizing: border-box;
+    padding: 10px;
+
+    row-gap: 10px;
+
+    background-color: rgba(0, 0, 0, 0.07);
+}
+
+.calculator-screen{
+    flex-basis: 100px;
+
+    border: 2px solid black;
+    border-radius: 5px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    row-gap: 5px;
+    
+    padding: 5px;
+    box-sizing: border-box;
+
+    font-size: x-large;
+
+    background-color: white;
+}
+
+.upperscreen{
+    display: flex;
+    justify-content: flex-start;
+
+    word-wrap: break-word;
+    word-break: break-all;
+}
+
+.lowerscreen{
+    display: flex;
+    justify-content: flex-end;
+
+    word-wrap: break-word;
+    word-break: break-all;
+}
+
+.calculator-buttons{
+    display: grid;
+    
+    grid-template-columns: repeat(5, 75px);
+    grid-template-rows: repeat(4, 75px);
+    gap: 5px;
+    
+}
+
+.calculator-buttons  button{
+    font-size: larger;
+    border: 2px solid black;
+    border-radius: 5px;
+    transition: all 0.15s;
+
+    cursor: pointer;
+    outline: none;
+    
+}
+
+#span-two{
+    width: 155px;
+}
+
+.number{
+    background-color: rgba(0, 255, 255, 0.5);
+}
+
+.operator{
+    background-color: rgba(240, 255, 255, 0.5);
+}
+
+.function{
+    background-color:  rgba(255, 228, 196, 0.5);
+}
+
+.number:hover, .operator:hover, .function:hover{
+    font-size:xx-large;
+}
+
+.number:hover{
+    background-color: rgba(0, 255, 255, 1);
+    
+}
+
+.operator:hover{
+    background-color: rgba(240, 255, 255, 1);
+}
+
+.function:hover{
+    background-color:  rgba(255, 228, 196, 1);
+}
+
+
+/* Footer */
+.footer{
+    flex-basis: 30px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+
+    background-color: rgb(20, 167, 167);
+    font-size: larger;
+    padding: 10px;
+}
+
+.footer a{
+    text-decoration: none;
+    color: black;
+   
+}
+
+.footer a:hover{
+    color: rgba(255, 255, 255, 0.7);
+}
