@@ -2,54 +2,52 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>on Screen Calculator</title>
+    <title>Document</title>
 
-    <link rel="stylesheet" href="./css/styles.css" >
+    <link rel="stylesheet" href="./css/style.css" >
     <script src="./javascript/script.js" defer></script>
     
 </head>
 <body>
-
+    
     <div class="calculator-container">
-
         <div class="calculator">
-
             <div class="calculator-screen">
-                <div class="upper-screen"></div>
-                <div class="lower-screen"></div>
+                <div data-upperscreen class="upperscreen"></div>
+                <div data-lowerscreen class="lowerscreen"></div>
             </div>
-
+    
+           
             <div class="calculator-buttons">
-                <button>7</button>
-                <button>8</button>
-                <button>9</button>
-                <button id="del">DEL</button>
-                <button id="ac">AC</button>
-                <button>4</button>
-                <button>5</button>
-                <button>6</button>
-                <button id="multiply" >&#215</button>
-                <button id="divide">&#247</button>
-                <button>1</button>
-                <button>2</button>
-                <button>3</button>
-                <button id="add">&#43</button>
-                <button id="subtract">&#8722</button>
-                <button>0</button>
-                <button>.</button>
-                <button>ANS</button>
-                <button  id="span-two">=</button>
+                <button class="number" data-number>7</button>
+                <button class="number" data-number>8</button>
+                <button class="number" data-number>9</button>
+                <button class="function" data-delete id="del">DEL</button>
+                <button class="function" data-clear id="ac">AC</button>
+                <button class="number" data-number>4</button>
+                <button class="number" data-number>5</button>
+                <button class="number" data-number>6</button>
+                <button class="operator" data-operator id="multiply" >&#215</button>
+                <button class="operator" data-operator id="divide">&#247</button>
+                <button class="number" data-number>1</button>
+                <button class="number" data-number>2</button>
+                <button class="number" data-number>3</button>
+                <button class="operator" data-operator id="add">&#43</button>
+                <button class="operator" data-operator id="subtract">&#8722</button>
+                <button class="number" data-number>0</button>
+                <button class="number" data-number>.</button>
+                <button class="function" data-ans>ANS</button>
+                <button class="function" data-equal id="span-two">=</button>
             </div>
-            
         </div>
             
     </div>
-    
+   
+   
     <div class="footer">
-        <a href="https://github.com/Kuramenai">Kuramenai &nbsp;</a>
-        <div>&copy 2023</div>
+        <a href="https://github.com/Kuramenai">Kuramenai&nbsp;</a>
+        &copy 2023
     </div>
 
 </body>

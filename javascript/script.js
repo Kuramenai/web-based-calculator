@@ -1,4 +1,109 @@
+const numberButtons = document.querySelectorAll('[data-number]');
+const operatorButtons = document.querySelectorAll('[data-operator]');
+const equalButton = document.querySelector('[data-equal]');
+const deleteButton = document.querySelector('[data-delete]');
+const clearButton = document.querySelector('[data-clear]');
+const ansButton = document.querySelector('[data-ans]');
+const upperscreen = document.querySelector('[data-upperscreen]');
+const lowerscreen = document.querySelector('[data-lowerscreen]');
 
+let currentValue = '';
+let previousValue = '';
+let operator = '';
+let result = 0;
+let displayingPastResult = false;
+let ansBtnPressed = false
+
+// FOR NUMBER BUTTONS
+
+numberButtons.forEach( numberBtn => {
+    numberBtn.addEventListener('click', addText);
+})
+
+function addText(e){
+    let number = e.target.textContent;
+    if(displayingPastResult){
+        allClear();
+        displayingPastResult = false;   
+    }
+    if(number === '.' && currentValue.includes('.')){
+        return;
+    }
+    if(currentValue.length < 10){
+        currentValue  += number;
+        updateScreen()
+    }  
+}
+
+// FOR OPERATOR BUTTONS
+
+operatorButtons.forEach( operatorBtn => {
+    operatorBtn.addEventListener('click', operatorButtonHandler);
+})
+
+function operatorButtonHandler(e){
+    if(displayingPastResult){
+        allClear();
+        displayingPastResult = false;
+        previousValue = `${result}`;
+        operator = e.target.textContent;
+    }
+    if(currentValue){
+       
+        if(previousValue){
+            previousOperator = operator;
+            operator = e.target.textContent;
+
+            firstOperand = parseFloat(previousValue);
+            secondOperand = parseFloat(currentValue);
+            result = operate(firstOperand, secondOperand, previousOperator);
+
+            previousValue = `${result}`
+        }
+        else{
+            operator = e.target.textContent;
+            previousValue = currentValue;
+        }
+        currentValue = '';
+    }  
+    updateScreen();
+}
+
+// FOR EQUAL BUTTON
+
+equalButton.addEventListener('click', getOperationResult)
+
+function getOperationResult(){
+    if(currentValue && previousValue){
+        firstOperand = parseFloat(previousValue);
+        secondOperand = parseFloat(currentValue);
+        result = operate(firstOperand, secondOperand, operator);
+
+        lowerscreen.textContent = Number.isFinite(result) ? `${result}`: 'MATH ERROR';
+        displayingPastResult = true;
+    }
+    else{
+        lowerscreen.textContent = 'SYNTAX ERROR';
+    }
+}
+
+function operate(number1, number2, operator){
+    switch(operator){
+    case '+':
+        return add(number1, number2);
+    case '−':
+        return subtract(number1, number2);
+    case '×':
+        return multiply(number1, number2);
+    case '÷':
+        if(number2 != 0){
+            return divide(number1, number2);
+        }
+        else{
+            return NaN;
+        }
+    }
+}
 
 function add(number1, number2){
     return number1 + number2;
@@ -16,117 +121,45 @@ function divide(number1, number2){
     return number1 / number2;
 }
 
-function isValidNumber(number){
-    if( Number.isFinite(number)){
-        return true;
-    }
-    else{
-        return false;
-    }
+function clear(){
+    currentValue = '';
+    previousValue = '';
+    operator = '';
 }
 
-function operate(number1, number2, operator){
-    switch(operator){
-    case 'add':
-        return add(number1, number2);
-    case 'subtract':
-        return subtract(number1, number2);
-    case 'multiply':
-        return multiply(number1, number2);
-    case 'divide':
-        return divide(number1, number2);
-    }
+// FOR ALL CLEAR BUTTON
+clearButton.addEventListener('click', allClear);
+
+function allClear(){
+    upperscreen.textContent = '';
+    lowerscreen.textContent = '';
+    clear()
 }
 
-function getOperationResult(){
+//FOR DELETE BUTTON
+deleteButton.addEventListener('click', deleteSymbol);
 
-    operator = operatorsStack[0];
-    operatorName = operator.id;
-    operands = upperScreen.textContent.split(`${operator.textContent}`);
-    firstOperand = parseFloat(operands[0]);
-    secondOperand = parseFloat(operands[1]);
-
-    if (isValidNumber(firstOperand) && isValidNumber(secondOperand)){
-        result = operate(firstOperand, secondOperand, operatorName);
-        operatorsStack.shift();
-        operands.shift();
-        operands.shift();
-        return result;
-    }
-    else{
-        return NaN;
-    }
-}
-
-function resetOperators(){
-    
-    operatorsStack = [];
-    operands = [];
-
-}
-
-function clearScreen(){
-    upperScreen.textContent = '';
-    lowerScreen.textContent = '';
-    displayingPastResult = false;
-}
-
-
-function main(e){
-
-    let button = e.target;
-
-    if(button.id === 'multiply' || button.id === 'divide' || button.id === 'add' || button.id === 'subtract'){
-        
-        if(operatorsStack.length === 1){
-            operationResult = getOperationResult()
-            if(operationResult){
-                upperScreen.textContent = `${operationResult} ${button.textContent} `
-                operatorsStack.push(button)
-            }
-            
+function deleteSymbol(){
+    if(!displayingPastResult){
+        if(currentValue){
+            currentValue = currentValue.slice(0, -1);
+            updateScreen();
         }
-        else if(operatorsStack.length === 0){
-            operatorsStack.push(button);
-            upperScreen.textContent += ` ${button.textContent} `;
-        }
-
-    }
-    else if(button.id === '=' && operatorsStack){
-
-        if(operatorsStack.length == 1){
-
-            operationResult = getOperationResult();
-            lowerScreen.textContent = operationResult;
-            displayingPastResult = true;
-            resetOperators();
-        }
-
-    }
-    else if(button.id === 'ac'){
-        clearScreen()
-        resetOperators()
-    }
-    else if(!button.id){
-        if(displayingPastResult){
-           clearScreen();
-        }
-        upperScreen.textContent += `${button.textContent}`;  
     }
 }
 
+// FOR ANS BUTTON
+ansButton.addEventListener('click', returnOperationResult);
 
-let operatorsStack = [];
-let operands ;
-let displayingPastResult = false;
-
-upperScreen = document.querySelector('.upper-screen');
-lowerScreen = document.querySelector('.lower-screen');
-
-calculator_buttons = document.querySelector('.calculator-buttons').children;
-
-for(button of calculator_buttons){
-    button.setAttribute(`style`, `grid-area: ${button.className}`);
-    button.addEventListener('click', main);
+function returnOperationResult(){
+    if(displayingPastResult){
+        allClear()
+        currentValue = `${result}`;
+        updateScreen();
+        displayingPastResult = false;
+    }
 }
 
+function updateScreen(){
+    upperscreen.textContent = previousValue + ' ' + operator + ' ' + currentValue;
+}
