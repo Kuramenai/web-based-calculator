@@ -31,7 +31,7 @@ function addText(e){
     }
     if(currentValue.length < 10){
         currentValue  += number;
-        upperscreen.textContent += number;
+        updateScreen()
     }  
 }
 
@@ -44,7 +44,9 @@ operatorButtons.forEach( operatorBtn => {
 function operatorButtonHandler(e){
     if(displayingPastResult){
         allClear();
-        displayingPastResult = false;   
+        displayingPastResult = false;
+        previousValue = `${result}`;
+        operator = e.target.textContent;
     }
     if(currentValue){
        
@@ -57,22 +59,14 @@ function operatorButtonHandler(e){
             result = operate(firstOperand, secondOperand, previousOperator);
 
             previousValue = `${result}`
-            upperscreen.textContent = previousValue + ' ' + operator + ' ';
-        }
-        else if(ansBtnPressed){
-            operator = e.target.textContent;
-            upperscreen.textContent += ' ' + operator + ' ';
-            previousValue = currentValue;
-
-            ansBtnPressed = false;
         }
         else{
             operator = e.target.textContent;
-            upperscreen.textContent = currentValue + ' ' + operator + ' ';
             previousValue = currentValue;
         }
         currentValue = '';
     }  
+    updateScreen();
 }
 
 // FOR EQUAL BUTTON
@@ -133,7 +127,7 @@ function clear(){
     operator = '';
 }
 
-//FOR ALL CLEAR BUTTON
+// FOR ALL CLEAR BUTTON
 clearButton.addEventListener('click', allClear);
 
 function allClear(){
@@ -148,23 +142,24 @@ deleteButton.addEventListener('click', deleteSymbol);
 function deleteSymbol(){
     if(!displayingPastResult){
         if(currentValue){
-            
+            currentValue = currentValue.slice(0, -1);
+            updateScreen();
         }
     }
 }
 
-//FOR ANS BUTTON
-
+// FOR ANS BUTTON
 ansButton.addEventListener('click', returnOperationResult);
 
 function returnOperationResult(){
     if(displayingPastResult){
         allClear()
         currentValue = `${result}`;
-        upperscreen.textContent = currentValue;
-        
-        ansBtnPressed = true;
+        updateScreen();
         displayingPastResult = false;
     }
 }
 
+function updateScreen(){
+    upperscreen.textContent = previousValue + ' ' + operator + ' ' + currentValue;
+}
